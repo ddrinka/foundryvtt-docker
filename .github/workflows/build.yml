@@ -60,11 +60,11 @@ jobs:
           return_code=0
           if [ -z "${{ secrets.DOCKER_USERNAME }}" ]; then
             echo "::warning::Set the DOCKER_USERNAME secret."
-            return_code=1
+            # return_code=1
           fi
           if [ -z "${{ secrets.DOCKER_PASSWORD }}" ]; then
             echo "::warning::Set the DOCKER_PASSWORD secret."
-            return_code=1
+            # return_code=1
           fi
           exit $return_code
           
