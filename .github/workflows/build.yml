@@ -67,6 +67,27 @@ jobs:
             return_code=1
           fi
           exit $return_code
+          
+  ecr-secrets:
+    name: "AWS ECR secrets"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check AWS ECR credentials
+        run: |
+          return_code=0
+          if [ -z "${{ secrets.AWS_ACCESS_KEY_ID }}" ]; then
+            echo "::warning::Set the AWS_ACCESS_KEY_ID secret."
+            return_code=1
+          fi
+          if [ -z "${{ secrets.AWS_SECRET_ACCESS_KEY }}" ]; then
+            echo "::warning::Set the AWS_SECRET_ACCESS_KEY secret."
+            return_code=1
+          fi
+          if [ -z "${{ secrets.ECR_REPOSITORY }}" ]; then
+            echo "::warning::Set the ECR_REPOSITORY secret."
+            return_code=1
+          fi
+          exit $return_code
 
   artifact-key:
     name: "Artifact key"
@@ -154,3 +175,6 @@ jobs:
     secrets:
       docker_password: ${{ secrets.DOCKER_PASSWORD }}
       docker_username: ${{ secrets.DOCKER_USERNAME }}
+      ecr_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      ecr_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      ecr_repository: ${{ secrets.ECR_REPOSITORY }}
